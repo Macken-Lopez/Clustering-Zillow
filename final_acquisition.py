@@ -92,6 +92,12 @@ def get_counties(df):
 
 
 def create_features(df):
+
+    '''
+    This function does some basic feature engineering
+    
+    
+    '''
     df['age'] = 2017 - df.yearbuilt
     df['age_bin'] = pd.cut(df.age, 
                            bins = [0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140],
@@ -151,7 +157,9 @@ def create_features(df):
 
 def remove_outliers(df):
     '''
-    remove outliers in bed, bath, zip, square feet, acres & tax rate
+    remove outliers in bed, bath, zip, square feet, acres & tax rates
+    since we are predicting error we wanted to keep the majority of outliers
+    we just obvious outliers
     '''
 
     return df[((df.bathroomcnt <= 7) & (df.bedroomcnt <= 7) & 
@@ -219,6 +227,12 @@ def county_train_test_split(counttydfs,target_var='logerror'):
 
 
 def partitionedZillowbyCounty():
+    '''    
+    takes the zillow data set applys remove outlier fuctions, then partitions into counties, then for each respective county it partitions it into a train test split
+
+    
+    
+    '''
     df=get_zillow_data()
     df.head().T
     df.shape
@@ -279,6 +293,10 @@ def partitionedZillowbyCounty():
 
 
 def logerrorbins(df):
+    '''   
+    bins the log errror to make a categorical variable
+    
+    '''
     df['logerror_bins'] = pd.cut(df.logerror, [-5, -.2, -.05, .05, .2, 4])
     df.logerror_bins.value_counts() 
     # sns.pairplot(data = df, hue = 'logerror_bins', 

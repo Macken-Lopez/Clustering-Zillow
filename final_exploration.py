@@ -10,7 +10,7 @@ import sklearn
 def interestingdictionary(df,interestingcols,target,n=100):
     '''
     does some cool group by things to isolate a target variable by interestingcols catergorical cols, it then groups by all the uniquie values in that col and if the length is greater than n it saves it as dataframe and attaches it to a dictionary
-    the return is dictionary of dictionaries where each unique col is the outer dictionary key and each unique val is the inner dictionary key
+    the return is dictionary of dictionaries where each unique col is the outer dictionary key and each unique val is the inner dictionary key. Meant for use with granulartwocombocomparison() function.
 
 
 
@@ -53,9 +53,8 @@ target='logerror'
 
 def granulartwocombocomparison(df,interestingcols,target,n=100):
     '''
-    This is to analyize for consistency. I don't think it is dynamic enought but it is a start. It would make sense to try different binning sizzes as we could find the optimal bins where the populations are mostly different.
-    A simular implmentation might be useful just to compare each groupby to the overall population. 
-
+    This takes df and for every column it isolates it to the nunique groups within the coloum, if the groups are larger than n it makes a statistical 
+    compareison between overy other in the column
 
     '''
     interestingAF=interestingdictionary(df,interestingcols,target,n)
@@ -171,6 +170,10 @@ def scale_and_concat(df,scaler,scaled_vars):
 
 
 def partitionslist_with_scaled(scaled_vars = ['latitude', 'longitude', 'bathroomcnt', 'taxrate']):
+    '''
+    this takes the df from partitionedZillowbyCounty()
+    
+    '''
     
     partitionslist=partitionedZillowbyCounty()
     newpartitionslist=[]
@@ -195,6 +198,12 @@ def partitionslist_with_scaled(scaled_vars = ['latitude', 'longitude', 'bathroom
 
 
 def find_k(X_train, cluster_vars, k_range):
+    '''
+    
+    
+    
+    '''
+    
     sse = []
     for k in k_range:
         kmeans = KMeans(n_clusters=k)
@@ -258,7 +267,7 @@ def create_clusters(X_train, k, cluster_vars):
 # get the centroids for each distinct cluster...
 
 def get_centroids(kmeans, cluster_vars, cluster_name):
-    # get the centroids for each distinct cluster...
+    '# get the centroids for each distinct cluster...'
 
     centroid_col_names = ['centroid_' + i for i in cluster_vars]
 
@@ -284,6 +293,10 @@ def assign_clusters(kmeans, cluster_vars, cluster_name, centroid_df, X):
 
 
 def pearsonsRsquareLogError(df,a):
+    '''
+    This does the pearsons R for a df with two continuious variables b is constant 'logerror'
+    
+    '''
     b='logerror'
     i=[a,b]
     
@@ -304,6 +317,10 @@ def pearsonsRsquareLogError(df,a):
 
 
 def threeQandA_stats_viz_counties(train_la,orange_train,ventura_train):
+    '''
+    this creates a viz and does an independent t-test for each county's logerror respective to each other
+    
+    '''
     traincountyset=set(['train_la','orange_train','ventura_train'])
     traincounty2combos=list(combinations(traincountyset,2))
     traincountyset=list(traincountyset)
@@ -361,6 +378,10 @@ def threeQandA_stats_viz_counties(train_la,orange_train,ventura_train):
 
 
 def county_train_pie(train_la,orange_train,ventura_train):
+    '''
+    creates a pie chart to show the net respective percentages in each county
+    
+    '''
     data = [len(train_la),len(orange_train),len(ventura_train)]
     labels = ['LA','OC','Ventura']
 
@@ -374,6 +395,11 @@ def county_train_pie(train_la,orange_train,ventura_train):
 
 
 def ageandlogrelpie(lengthsame,lengthdiff):
+    '''
+    shoes the percentage of samples which passed the independt t test vs those that didn't in age
+    
+    
+    '''
     #define data
     data = [lengthsame, lengthdiff]
     labels = ['Same pop', 'Different pop']
