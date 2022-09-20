@@ -392,8 +392,9 @@ For example:
 
 1)You will need an env.py file that contains the hostname, username and password of the mySQL database that contains the titanic_db.passengers table. Store that env file locally in the repository.
 
-2)clone my repo (including the wrangle.py, explore.py, and model.py) (confirm .gitignore is hiding your env.py file)
 
+
+2)clone my repo (the only file that is irrelevant is rich_modeling.ipynb)
 3)libraries used are pandas, matplotlib, seaborn, numpy, sklearn,scipy, math.
 
 4)you should be able to run Similar Log Error Preditions.
