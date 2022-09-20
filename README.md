@@ -160,19 +160,39 @@ this readme.md
 
 ### Data Used
 ---
-| Attribute | Definition | Data Type |
-| ----- | ----- | ----- |
-|area|Area of the property in square feet|float64|
+|acres|Amount of Acres for property|float64 |
+|acres_bin|Bin of Acres Feature|float64 |
+|age|Age of the property from Build Date|float64 |
+|age_bin|Bin of Age|float64 |
 |assessmentyear|Year the taxes were assessed on the property|float64|
 |bathroomct|Count of Bathrooms for the property|float64|
 |bedroomcnt|Count of Bedrooms for the property|float64|
+|bath_bed_ratio|Combinded feature|float64 |
+|calculatedfinishedsquarefeet|Area of the property in square feet|float64|
+|cola|County of Los Angles |int64   |
 |county|County the property is in |object|
 |fips|Federal Information Processing Standard code|int64|
+|land_dollar_per_sqft|Cost per Sqft of land |float64 |
+|landtaxvaluedollarcnt|Value of Land for Taxation purpose   |float64 |
 |latitude|Latitude of the middle of the parcel divided by 10e6|float64|
 |logerror|The log difference between Zillow's Zestimate and the property sale price|float64|
 |longitude|Longitude of the middle of the parcel divided by 10e6|float64|
+|lotsizesquarefeet| Sqft of Lot of property not building|float64|
+|lot_dollar_sqft_bin|          |float64 |
+|parcelid|Unique identifier for parcels (lots)|float64|
+|regionidcity |City for Property|float64 |
+|regionidcounty|County associated with Property|float64 |
+|regionidzip| Zip associated with Property     |float64 |
+|structure_dollar_per_sqft|    |float64 |
+|structure_dollar_sqft_bin|   |float64 |
+|sqft_bin|Sqft Bin|float64 |
+|taxamount|Amount of Tax|float64 |
+|taxrate|Rate of Tax |float64 |
+|taxvaluedollarcnt|Tax Value Dollar Count|float64 |
 |yearbuilt|The Year the Property was Built|float64|
-| ----- | ----- | ----- |
+
+---
+
 ***
 [[Back to top](#top)]
 ## <a name="wrangle"></a>Data Acquisition and Preparation
