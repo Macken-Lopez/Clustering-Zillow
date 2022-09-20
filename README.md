@@ -145,9 +145,7 @@ this readme.md
 ## <a name="findings"></a>Key Findings:
 ## There is more than one way to predict but simple is better and diving to deep will cause you to drown.
 
-### Sqft plays a factor in value
-### Number of Bathroom plays a factor in Value 
-### Number of Bedrooms plays a factor in Value
+# Cursory Cluster was not benifical caused what appears to be over fitting. Our models are likely overfit because it is a 6 Degree Polynomial.
 
 
 [[Back to top](#top)]
