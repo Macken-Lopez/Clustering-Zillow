@@ -159,7 +159,8 @@ this readme.md
 
 
 ### Data Used
----
+| Attribute | Definition | Data Type |
+| ----- | ----- | ----- |
 |acres|Amount of Acres for property|float64 |
 |acres_bin|Bin of Acres Feature|float64 |
 |age|Age of the property from Build Date|float64 |
@@ -224,7 +225,7 @@ Repeat until you get something you understand.
 [[Back to top](#top)]
 
 
-# Stats Test 1
+# Stats Test 1: Pearsons
 
 # Hypothesis 1
 Is there a correlation between square footage of a home and log error?
@@ -235,18 +236,19 @@ Is there a correlation between square footage of a home and log error?
 ## $H_a$ : Square footage  is independent of the log error of a property 
  
 
-#### Alpha value:
+#### Alpha value: 
 
 - alpha = 1 - confidence, therefore alpha is 0.05
 
 #### Results:
-We reject the null hypothesis.
+Yes, we observe that structure_dollar_sqft_bin and logerror show observable correlation by pearsons R:
+Our r value is:-0.037313842378546944
+Hence, we reject our null hypothesis
 
-#### Summary:
 
 ***
 ----------
-# Stats Test 2: 
+# Stats Test 2: Pearsons
 
 # Hypothesis 2
 Is there a relationship between tax value and log error?
@@ -255,18 +257,44 @@ Is there a relationship between tax value and log error?
 
 ## $H_a$ : Tax Rate is independent of  the log error of a property 
 
+#### Alpha value: 
+
+- alpha = 1 - confidence, therefore alpha is 0.05
 
 #### Results:
-We reject the null hypothesis.
+Yes, we observe that taxrate and logerror show observable correlation by pearsons R:
+Our r value is:0.020205900971801253
+Hence, we reject our null hypothesis
+
+
+
+***
+----------
+# Stats Test 3: Idependant T Test
+# Hypothesis 3
+Does log error vary by the age of the house?
+
+## $H_0$: Tax Value has a dependent relationship with a homes age.
+
+## $H_a$ : Tax Value is independent of a homes age.
+
+#### Alpha value:
+- alpha = 1 - confidence, therefore alpha is 0.05
+
+#### Results:
+Since age is actually a categorical, we explored every unique age with a sample size of greater than 100.
+
+(a conservative sample size to ensure our tests are significant).
+We ran the levene test then a ttest for indpendence respective to the levene test results. The net results give us a bit more detail than an ANOVA which would allow for deeper inspection.
 
 
 #### Summary:
 While I still do not fully grasp this process it was completed
 ***
-----------
-# Stats Test 3: 
+-------
+# Stats Test 4: Independant T Test
 
-# Hypothesis 3
+# Hypothesis 4
 Log error is different among the counties of LA County, Orange County and Ventura County?
 
 ## $H_0$:  There is no significant difference in logerror for properties in LA County vs Orange County vs Ventura County
@@ -278,35 +306,19 @@ Log error is different among the counties of LA County, Orange County and Ventur
 - alpha = 1 - confidence, therefore alpha is 0.05
 
 #### Results:
-We reject the null hypothesis.
+No, we observe that ventura_train and orange_train are statistically the same:
+Hence, we fail to reject our null hypothesis
 
+No, we observe that ventura_train and train_la are statistically the same:
+Hence, we fail to reject our null hypothesis
 
-#### Summary:
-While I still do not fully grasp this process it was completed
+Yes, we observe that orange_train and train_la are statistically different
+Hence, we reject our null hypothesis
+We see that LA and OC come from statistically different populations. However Ventura is not indepedent of LA or OC.
 
 ***
 ----------
-# Stats Test 4: 
 
-
-
-# Hypothesis 4
-Does log error vary by the age of the house?
-
-## $H_0$: Tax Value has a dependent relationship with a homes age.
-
-## $H_a$ : Tax Value is independent of a homes age.
-
-#### Alpha value:
-- alpha = 1 - confidence, therefore alpha is 0.05
-
-#### Results:
-We reject the null hypothesis.
-
-
-#### Summary:
-While I still do not fully grasp this process it was completed
-***
 ----------
 ## <a name="model"></a>Modeling:
 [[Back to top](#top)]
@@ -314,19 +326,27 @@ While I still do not fully grasp this process it was completed
 ### Model Preparation:
 
 ### Baseline
-    
-- Baseline Results: 
-Our baseline accuracy in all cases on the Dataset is :
 
-RMSE Mean:
-248150.10218076012
-----------------
-RMSE Median:
-250857.8604903843
+---
 
-- Selected features to input into models:
-    - features = Area, Bathrooms, Bedrooms
-
+|	                                |Train|	        Validate|	diff|	        abs_diff|	abs_percent_change|
+|---|---|---|---|---|---| 
+|RMSE for degree6 Polynomial Model|	0.162950|	0.162608|	0.000342|	0.000342|	0.209789|
+|RMSE for degree5 Polynomial Model|	0.163366|	0.151804|	0.011561|	0.011561|	7.077024|
+|RMSE for degree4 Polynomial Model|	0.163870|	0.151262|	0.012608|	0.012608|	7.693663|
+|RMSE for degree3 Polynomial Model|	0.164080|	0.151316|	0.012764|	0.012764|	7.779134|
+|RMSE using Median	          |      0.164701|	0.151908|	0.012792|	0.012792|	7.767078|
+|RMSE using Mode	                   |     0.164701|	0.151908|	0.012792|	0.012792|	7.767078|
+|RMSE using Mean                 	|0.164499|	0.151660|	0.012839|	0.012839|	7.804708|
+|RMSE for Elastic Net Model|	        0.164499|	0.151660|	0.012839|	0.012839|	7.804708|
+|RMSE for Lasso + Lars	   |             0.164499|	0.151660|	0.012839|	0.012839|	7.804708|
+|RMSE for 2nd Degree Polynomial Model|	0.164262|	0.151367|	0.012896|	0.012896|	7.850614|
+|RMSE for ARDRegression	        |        0.164418|	0.151518|	0.012900|	0.012900|	7.845845|
+|BayesianRidge	                |        0.164411|	0.151486|	0.012925|	0.012925|	7.861316|
+|RMSE for OLM	                |        0.164399|	0.151459|	0.012940|	0.012940|	7.870953|
+|RMSE for LassoLarsIC	        |        0.164399|	0.151459|	0.012940|	0.012940|	7.870953|
+|RMSE for degree7 Polynomial Model|	0.162225|	0.420686|	-0.258461|	0.258461|	159.323123|
+|RMSE for degree8 Polynomial Model|	0.161256|	14.234101|	-14.072845|	14.072845|	8727.025312|
 ***
 
 ### Models and R<sup>2</sup> Values:
@@ -341,22 +361,9 @@ RMSE Median:
 
 ## Selecting the Best Model:
 
-### Use Table below as a template for all Modeling results for easy comparison:
-
-RMSE for Lasso & Lars
-Training/In-Sample:  219234.24 
-Validation/Out-of-Sample:  217879.84
-R2: 0.22
-_______________________________________________
-RMSE for OLS using LinearRegression
-Training/In-Sample:  219233.87 
-Validation/Out-of-Sample:  217881.69
-R2: 0.22
-_______________________________________________
-RMSE for Polynomial Model, degrees=2
-Training/In-Sample:  219176.92 
-Validation/Out-of-Sample:  217894.86
-R2: 0.22
+|| Train| Validate|	Test|Train_to_Val_diff|	Train_to_Val_abs_diff|Train_to_Test_diff|Train_to_Test_abs_diff|
+|---|---|---|---|---|---|---|---|
+|RMSE for degree6 Polynomial Model|	0.16295     |    0.162608|	0.271169|	0.000342	|        0.000342	|-0.10822|	0.10822|
 
 
 
@@ -365,9 +372,9 @@ R2: 0.22
 ***
 
 ## <a name="conclusion"></a>Conclusion:
-Sqft plays a factor in value,
-Number of Bathroom plays a factor in Value,
-Number of Bedrooms plays a factor in Value,
+Cursory Cluster was not benifical caused what appears to be over fitting. Our models are likely overfit because it is a 6 Degree Polynomial. 
+
+With more time we would like to 
 ---
 ### Steps to Reproduce
 Your readme should include useful and adequate instructions for reproducing your analysis and final report.
@@ -380,7 +387,7 @@ For example:
 
 3)libraries used are pandas, matplotlib, seaborn, numpy, sklearn,scipy, math.
 
-4)you should be able to run churn_report.
+4)you should be able to run Similar Log Error Preditions.
 
 
 [[Back to top](#top)]
