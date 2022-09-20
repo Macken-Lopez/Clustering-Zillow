@@ -280,7 +280,7 @@ Does log error vary by the age of the house?
 - alpha = 1 - confidence, therefore alpha is 0.05
 
 #### Results:
-Since age is actually a categorical, we explored every unique age with a sample size of greater than 100.
+Since age is actually a categorical, we explored every unique age with a sample size of greater than 100. We observe the aggregate of our results in the form of a pie chart.
 
 (a conservative sample size to ensure our tests are significant).
 We ran the levene test then a ttest for indpendence respective to the levene test results. The net results give us a bit more detail than an ANOVA which would allow for deeper inspection.
@@ -372,10 +372,21 @@ We see that LA and OC come from statistically different populations. However Ven
 ## <a name="conclusion"></a>Conclusion:
 Cursory Cluster was not benifical caused what appears to be over fitting. Our models are likely overfit because it is a 6 Degree Polynomial. 
 
-With more time we would like to 
+With more time we would like to:
+
+We would like to work on optimizing our clustering algorithims. I would like to create better loop structures to find the optimal cluster sizes. 
+
 ---
 ### Steps to Reproduce
-Your readme should include useful and adequate instructions for reproducing your analysis and final report.
+You need to copy our included files ending with .ipynb and .py. Then add a .env file with the format below.
+```python
+
+host='xxxxx'
+username='xxxxxx'
+password='xxxxxx'
+## Where the strings are your respective credentials to the codeUp SQL server
+
+```
 
 For example:
 
