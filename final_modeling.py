@@ -27,9 +27,7 @@ def regmodelbest(X_train, X_validate, X_test,y_train, y_validate,y_test ,random=
     in the future this should be be updated for more automation. 
     https://machinelearninghd.com/gridsearchcv-hyperparameter-tuning-sckit-learn-regression-classification/
     offers some examples
-    Currently it allows for the best models to be visualized. I will then apply a gradient search to the best model
-    to optimize further
-
+    Currently it sorts our best models by train and validate
     Started adding a dictionary to pick the best model but other models could be added
     
     
@@ -795,7 +793,7 @@ def regmodelbest(X_train, X_validate, X_test,y_train, y_validate,y_test ,random=
 def mvpXforModels(partitionslist,mvp):
     '''
     
-    reduces the restective big X dataframes to the mvp and scales them
+    reduces the respective big X dataframes to the mvp and scales them
     
     
     '''
@@ -855,7 +853,7 @@ def mvpXforModels(partitionslist,mvp):
 
 def LATest(X_train,X_validate,X_test,y_train,y_validate,y_test):
     '''
-    this is created simply to minimize the code in the main juoyternotebook 
+    this was our best model for LA county
     
     '''
     
