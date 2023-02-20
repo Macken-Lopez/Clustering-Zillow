@@ -1,48 +1,43 @@
-import matplotlib
-import seaborn as sns
-import sklearn
-from IPython.display import display
+from itertools import combinations
 
-from final_acquisition import *
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+import seaborn as sns
+from acquisition import *
+from IPython.display import display
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import MinMaxScaler, RobustScaler
 
 
 def interestingdictionary(df, interestingcols, target, n=100):
     """
-    does some cool group by things to isolate a target variable by interestingcols catergorical cols, it then groups by all the uniquie values in that col and if the length is greater than n it saves it as dataframe and attaches it to a dictionary
-    the return is dictionary of dictionaries where each unique col is the outer dictionary key and each unique val is the inner dictionary key. Meant for use with granulartwocombocomparison() function.
-
-
-
-
-
-
+    Does some cool group by things to isolate a target variable by interestingcols categorical cols, it then groups by all the unique values in that col and if the length is greater than n it saves it as dataframe and attaches it to a dictionary. The return is dictionary of dictionaries where each unique col is the outer dictionary key and each unique val is the inner dictionary key. Meant for use with granulartwocombocomparison() function.
     """
+
     outerdict = {}
-    for x, i in enumerate(interestingcols):
 
+    for i in interestingcols:
         uniques = df[i].unique().tolist()
-
         grp = df.groupby(i)
 
         innerdict = {}
+
         for y, j in enumerate(uniques):
             if pd.isna(j) == False:
-
                 group1 = grp.get_group(j)
                 isolated = group1[target]
+
                 if len(isolated) > n:
                     isolated = pd.DataFrame(isolated)
-                    innerdict.update({f"{df[i].name}_{y}": isolated})
-                    # print(f'Working with {i}{j}')
+                    innerdict[
+                        f"{df[i].name}_{y}"
+                    ] = isolated  # Update method replaced with assignment operator
 
-                else:
-                    # print('Not our condition')
-                    continue
             else:
-
                 continue
-        outerdict.update({i: innerdict})
-        # print(f'outdict:\n\n{outerdict}')
+
+        outerdict[i] = innerdict  # Update method replaced with assignment operator
+
     return outerdict
 
 
@@ -52,7 +47,7 @@ target = "logerror"
 
 def granulartwocombocomparison(df, interestingcols, target, n=100):
     """
-    This takes df and for every column it isolates it to the nunique groups within the coloum, if the groups are larger than n it makes a statistical
+    This takes df and for every column it isolates it to the nunique groups within the column, if the groups are larger than n it makes a statistical
     compareison between overy other in the column
 
     """

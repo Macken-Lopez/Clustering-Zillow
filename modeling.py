@@ -1,5 +1,7 @@
-import random
+# import random
 
+from final_acquisition import *
+from final_exploration import *
 from scipy.cluster.vq import kmeans2, whiten
 from sklearn import metrics
 from sklearn.cluster import DBSCAN, KMeans
@@ -21,9 +23,6 @@ from sklearn.preprocessing import (
     RobustScaler,
     StandardScaler,
 )
-
-from final_acquisition import *
-from final_exploration import *
 
 
 def regmodelbest(X_train, X_validate, X_test, y_train, y_validate, y_test, random=123):
@@ -855,3 +854,35 @@ def LATest(X_train, X_validate, X_test, y_train, y_validate, y_test):
     plt.show()
 
     return rmseDF
+
+
+def datadict(df):
+    x = pd.concat(
+        [
+            df.dtypes,
+            df.nunique(),
+            df.count(),
+            df.isnull().sum(),
+            df[df.isnull() == 0].kurtosis(),
+        ],
+        axis=1,
+    )
+    type(x)
+    x = x.reset_index()
+    collist = x.columns.to_list()
+    columns = [
+        "name",
+        "data type",
+        "unique",
+        "total count",
+        "null count",
+        "non null kurt",
+    ]
+    coldict = dict(zip(collist, columns))
+    x.rename(columns=coldict, inplace=True)
+    x.sort_values(by=["unique", "total count", "name"], inplace=True)
+    x = x.reset_index(drop=True)
+    x["percent null"] = (x["null count"] / x["total count"]) * 100
+
+    print(x.to_markdown())
+    return x
